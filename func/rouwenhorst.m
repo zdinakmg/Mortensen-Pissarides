@@ -1,4 +1,4 @@
-function [y,P,s]=rouwenhorst(rho,sigma,n)
+function [y,P,s]=rouwenhorst(rho,sigma,mu,n)
 %
 % Rowenhurst method to approximate univariate process by Markov chain
 %      y(t) = rho*y(t-1)+ e(t)
@@ -8,6 +8,7 @@ function [y,P,s]=rouwenhorst(rho,sigma,n)
 %
 % INPUTS: rho    - autocorrelation coefficient
 %         sigma  - standard deviation of e(t)
+%         mu     - mean of y(t)
 %         n      - number of states in Markov chain
 %
 % OUTPUT: y - 1 x n grid  points of Markov chain, evenly spaced states
@@ -28,7 +29,7 @@ function [y,P,s]=rouwenhorst(rho,sigma,n)
 %
 
 ybar=sqrt((n-1)/(1-rho^2))*sigma;   
-y=linspace(-ybar,ybar,n);           % Grid size, evenly space around 0
+y=linspace(mu-ybar,mu+ybar,n);      % Grid size, evenly space around mean
 p=(1+rho)/2; q=p;                   % Defined to hit autocorrelation      
 P=rh(n);                            % Call rh function n times
 s=zeros(n,1);

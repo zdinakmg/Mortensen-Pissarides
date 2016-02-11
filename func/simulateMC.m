@@ -24,7 +24,7 @@ P_bar = invdist(P);            % Unconditional distribution
 CDF_bar = cumsum(P_bar,2);     % CDF of P_bar
                                % Index  initial steady state                                
 i = find( CDF_bar >= ... 
-          rand(1),1,'First');
+          rand(1),1,'First' );
                                % Starting from arbitrary state   (2)
 % i = 1;                       % Index initial arbitrary shock
 ind = zeros(1,n);

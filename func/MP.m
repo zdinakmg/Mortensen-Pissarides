@@ -3,7 +3,7 @@ function [sol,fval,exitflag] = MP(kappa,beta,A,alpha,PI,mu,z,b,delta,x0)
 %   Mortensen-Pissarides MP model with aggregate fluctuations.
 %
 %       Minimize the residual of N+1 equations to solve for N+1 values 
-%       of theta, here labor market tightness, v/u?
+%       of theta, here labor market tightness, v/u.
 %    
 % INPUTS:   kappa - Posting cost is about 3 days of output
 %           beta  - Weekly discount rate
@@ -30,13 +30,11 @@ function [sol,fval,exitflag] = MP(kappa,beta,A,alpha,PI,mu,z,b,delta,x0)
 %          https://github.com/jivizcaino/Numerical-Methods/
 %
 
-    % TO DO ...
+    % Open Items
     % optimoptions(@fsolve);
     % options.TolX        = 0.001;
     % options.TolFun      = 0.001;
     % options.MaxIter     = 2000;
-    % Make these arguments, not sure they are used?
-    % Set option to display information after each iteration
     % options=optimset('Display','iter');
 
     function sol = residual(theta)
@@ -45,13 +43,10 @@ function [sol,fval,exitflag] = MP(kappa,beta,A,alpha,PI,mu,z,b,delta,x0)
         % Solving for log theta ensures 0 < theta < inf
         % Matching function
         %       m(u,v) = min[1,A*1/theta^-alpha] 
-        %
+        
             sol = (kappa/(beta*A)).*(theta.^alpha)-PI*((1-mu).* ...
                    (z-b)-(kappa*mu).*(theta)+(((1-delta)*kappa)/A).* ... 
-                   (theta.^alpha));
-             %q = min(1,A.*theta.^alpha);  
-             %sol = q.^-alpha/A;
-             sol = log(sol);     
+                   (theta.^alpha));    
     end
 
     [sol,fval,exitflag] = fsolve (@residual,x0);

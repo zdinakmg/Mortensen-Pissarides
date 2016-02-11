@@ -1,6 +1,6 @@
 %% HEADER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%	Mortensen-Pissarides 
+%	Alternative Specification :: Mortensen-Pissarides
 %
 %   Michael G. Zdinak
 %   Washington University in St. Louis
@@ -17,12 +17,12 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ENVIRONMENT
-clc; 
+clc;
 root = 'C:\Users\micha\OneDrive\Documents\Classes\Numerical';
 cd([root '\HW\HW1']); addpath('func');
 clear;
 
-fprintf('\n\tMortensen-Pissarides\n');
+fprintf('\n\tHagedorn-Manovskii :: Mortensen-Pissarides\n');
 
 delta = 0.0081;     %      Separation rate
 alpha = 0.72;       %      Elasticity of matching
@@ -30,8 +30,8 @@ A     = 0.158;      %      Matching effciency
                     %      Matching function
 rho   = 0.9895;     %      Autocorrelation of weekly productivity
 sigma = 0.0034;     %      Standard Deviation for innovations
-mu    = 0.72;       %      Bargaining weight for workers
-b     = 0.4;        %      Unemployment utility
+mu    = 0.05;       %      NEW! Bargaining weight for workers
+b     = 0.95;       %      NEW! Unemployment utility
 kappa = 0.6;        %      Posting cost is about 3 days of output
 beta  = 0.999;      %      Weekly discount rate
 n = 50;             %      Grid size, recommend 30-50
@@ -40,10 +40,10 @@ t = n*100;          %      Number of simulations
 %% MAIN
 tic
 % Discreetize AR Process
-[z,P,~] = rouwenhorst(rho,sigma,1,n);
+[z,P,~] = rouwenhorst(rho,sigma,1.1,n);
     
 % Make a starting guess at the solution (zero) & call solver 
-[theta,fval,exitflag] = MP(kappa,beta,A,alpha,P,mu,z',b,delta,zeros(n,1));
+[theta,fval,exitflag] = MP(kappa,beta,A,alpha,P,mu,z',b,delta,ones(n,1));
 
 % Impose eower bound on theta
 theta( le(theta,(1/A).^(-1./alpha)) ) = (1/A).^(-1./alpha);
@@ -92,7 +92,7 @@ fprintf('%0.3f\t',[min(d_star) max(d_star) ...
                   mean(d_star) var(d_star)]); 
 fprintf('\n\t\t---\t\t----\t-----\t-----\n\n');
  
-fig = figure('Name','main','NumberTitle','off');
+fig = figure('Name','alt','NumberTitle','off');
 subplot(3,2,1:2)
 plot(theta_star);
     hline = refline([0 mean(theta_star)]);
@@ -146,5 +146,5 @@ plot(d_star);
     axis tight
     xlim([0 t])
     set(gca,'XTickLabel',[]);
-saveas(fig,'.\out\main.pdf');     
+saveas(fig,'.\out\alt.pdf');  
 fprintf('\tfin!\n\n');
