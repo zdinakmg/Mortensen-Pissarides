@@ -60,7 +60,7 @@ sigma_star = sqrt(s2);
 theta_star = theta(ind);
 
 % Realizations of productivity & time-series of the endogenous variables.
-[w_star, u_star, d_star] = eMP(kappa,beta,A,alpha,P,mu,z_star, ...
+[w_star, u_star, d_star, q_star] = eMP(kappa,beta,A,alpha,P,mu,z_star, ...
                                           b,delta,theta_star);
 toc
 
@@ -83,6 +83,9 @@ fprintf('%0.3f\t',[min(theta_star) max(theta_star) ...
 fprintf('\n\tw*\t');
 fprintf('%0.3f\t',[min(w_star) max(w_star) ...
                   mean(w_star) var(w_star)]);
+fprintf('\n\tq*\t');
+fprintf('%0.3f\t',[min(q_star) max(q_star) ...
+                  mean(q_star) var(q_star)]);
 fprintf('\n\t\t---\t\t----\t-----\t-----\n\t');
 fprintf('u\t');
 fprintf('%0.3f\t',[min(u_star) max(u_star) ...
@@ -93,13 +96,23 @@ fprintf('%0.3f\t',[min(d_star) max(d_star) ...
 fprintf('\n\t\t---\t\t----\t-----\t-----\n\n');
  
 fig = figure('Name','main','NumberTitle','off');
-subplot(3,2,1:2)
+subplot(3,2,1)
 plot(theta_star);
     hline = refline([0 mean(theta_star)]);
     hline.Color = 'r';
     hline.LineStyle = '--';
     hline.LineWidth = 1;
     title('theta')
+    axis tight
+    xlim([0 t])
+
+subplot(3,2,2)
+plot(q_star);
+    hline = refline([0 mean(q_star)]);
+    hline.Color = 'r';
+    hline.LineStyle = '--';
+    hline.LineWidth = 1;
+    title('q')
     axis tight
     xlim([0 t])
 

@@ -1,4 +1,4 @@
-function [w,u,d] = eMP(kappa,~,A,alpha,~,mu,z,b,delta,theta)
+function [w,u,d,q] = eMP(kappa,~,A,alpha,~,mu,z,b,delta,theta)
 %   
 %   Solve for endogenous wage, unemployment rate, & duration of unemploy-
 %   ment in a Mortensen-Pissarides model with aggregate fluctuations.
